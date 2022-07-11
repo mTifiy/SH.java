@@ -5,8 +5,8 @@ import java.util.Stack;
 
 public class ReversePolishNotation extends ValueType {
 
-    private final static LinkedList<String> polishFormula = new LinkedList<>();
-    private final static Stack<String> operators = new Stack<>();
+    private final  LinkedList<String> polishFormula = new LinkedList<>();
+    private final  Stack<String> operators = new Stack<>();
 
 
     public LinkedList<String> polishFormula(LinkedList<String> splitFormula) {

@@ -5,13 +5,13 @@ import java.util.Stack;
 
 public class Calculator extends ValueType{
 
-    private static final Stack<Double> result = new Stack<>();
+    private static final Stack<Object> result = new Stack<>();
 
-    public Double result(LinkedList<String> polishFormula){
-
-        for (String value: polishFormula){
-            if (isDigital(value)) result.add(Double.parseDouble(value));
-            else doTheCalculation(value);
+    public Object result(LinkedList<Object> polishFormula){
+        Double toClass = 0.5;
+        for (Object value: polishFormula){
+            if (value.getClass() == toClass.getClass()) result.add(value);
+            else doTheCalculation((String) value);
         }
         return result.get(0);
     }
@@ -20,8 +20,8 @@ public class Calculator extends ValueType{
 
             if (priorityOfOperator(operator) < 4) {
 
-                double firstDigital = result.pop();
-                double secondDigital = result.pop();
+                double firstDigital = (double) result.pop();
+                double secondDigital = (double) result.pop();
 
                 switch (operator) {
                     case "+" -> result.add(secondDigital + firstDigital);
@@ -32,7 +32,7 @@ public class Calculator extends ValueType{
                 }
             } else {
 
-                double firstDigital = result.pop();
+                double firstDigital = (double) result.pop();
 
                 switch (operator) {
                     case "sin" -> result.add(Math.sin(firstDigital));
