@@ -10,14 +10,10 @@ public class Assignment10Part1 extends ValueType {
 
 
     public static void main(String[] args) {
-        SeparateNumbersAndOperators splitFormula = new SeparateNumbersAndOperators();
-        ReversePolishNotation rPn = new ReversePolishNotation();
         Assignment10Part1 pars = new Assignment10Part1();
-        Calculator makeCalculator = new Calculator();
 
-        LinkedList<String> dividedFormula = splitFormula.separateNumbersAndOperators(args[0]);
-
-        LinkedList<String> polishFormula = rPn.polishFormula(dividedFormula);
+        LinkedList<String> dividedFormula = new SeparateNumbersAndOperators().separateNumbersAndOperators(args[0]);
+        LinkedList<String> polishFormula = new ReversePolishNotation().polishFormula(dividedFormula);
 
         Object[] parsePolishFormula = new Object[polishFormula.size()];
 
@@ -28,7 +24,7 @@ public class Assignment10Part1 extends ValueType {
 
         savedFormulas.put(keyToFormula(polishFormula), parsePolishFormula);
 
-        Double answer = makeCalculator.result(polishFormula);
+        Double answer = new Calculator().result(polishFormula);
         System.out.println(answer);
     }
 
