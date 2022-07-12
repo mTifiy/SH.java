@@ -8,9 +8,9 @@ public class Calculator extends ValueType{
     private static final Stack<Object> result = new Stack<>();
 
     public Object result(LinkedList<Object> polishFormula){
-        Double toClass = 0.5;
+
         for (Object value: polishFormula){
-            if (value.getClass() == toClass.getClass()) result.add(value);
+            if (value.getClass().equals(Double.class)) result.add(value);
             else doTheCalculation((String) value);
         }
         return result.get(0);

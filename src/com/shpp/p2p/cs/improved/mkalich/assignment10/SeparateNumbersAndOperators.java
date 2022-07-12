@@ -3,6 +3,7 @@ package com.shpp.p2p.cs.improved.mkalich.assignment10;
 import java.util.LinkedList;
 
 public class SeparateNumbersAndOperators extends ValueType  {
+
     private final LinkedList<String> dividedFormula = new LinkedList<>();
 
     private final String UNARY_MINUS = "UNARY";
@@ -66,7 +67,6 @@ public class SeparateNumbersAndOperators extends ValueType  {
         formula = formula.replaceAll(" ", "");
         formula = formula.replaceAll(",", ".");
         formula = formula.replaceAll("--", "+");
-//       TODO  formula = formula.replace("(-(", "(-1*(");
 
         StringBuilder digital = new StringBuilder();
         StringBuilder letter = new StringBuilder();

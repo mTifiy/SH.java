@@ -7,27 +7,19 @@ public class Assignment10Part1 extends ValueType {
 
     public static HashMap<String, LinkedList<Object>> savedFormulas = new HashMap<>();
 
-
     public static void main(String[] args) {
 
-        Assignment10Part1 myObj = new Assignment10Part1();
-        Calculator makeCalculator = new Calculator();
+        LinkedList<String> separateFormula = new SeparateNumbersAndOperators().separateNumbersAndOperators(args[0]);
 
-        LinkedList<String> polishFormula = new SeparateNumbersAndOperators().separateNumbersAndOperators(args[0]);
-        polishFormula = new ReversePolishNotation().polishFormula(polishFormula);
+        LinkedList<Object> parsePolishFormula = parsingOrOverwritingFormula(separateFormula);
 
-        LinkedList<Object> parsePolishFormula = new LinkedList<>();
+        replaceArguments(args, parsePolishFormula);
 
-        myObj.parsingOrOverwritingFormula(polishFormula, parsePolishFormula);
-
-        myObj.replaceArguments(args, parsePolishFormula);
-
-
-        Double answer = (Double) makeCalculator.result(parsePolishFormula);
+        Double answer = (Double) new Calculator().result(parsePolishFormula);
         System.out.println(answer);
     }
 
-    private void replaceArguments(String[] args, LinkedList<Object> parsePolishFormula) {
+    private static void replaceArguments(String[] args, LinkedList<Object> parsePolishFormula) {
         for (int i = 1; i < args.length; i++) {
             LinkedList<String> arg = new SeparateNumbersAndOperators().separateNumbersAndOperators(args[i]);
             for (int j = 0; j < parsePolishFormula.size(); j++)
@@ -36,23 +28,16 @@ public class Assignment10Part1 extends ValueType {
         }
     }
 
-    private void parsingOrOverwritingFormula(LinkedList<String> polishFormula, LinkedList<Object> parsePolishFormula) {
-        if (savedFormulas.containsKey(keyToFormula(polishFormula))) {
-            parsePolishFormula = savedFormulas.get(keyToFormula(polishFormula));
+    private static LinkedList<Object> parsingOrOverwritingFormula(LinkedList<String> separateFormula) {
+        LinkedList<Object> parsePolishFormula;
+        if (savedFormulas.containsKey(keyToFormula(separateFormula))) {
+            parsePolishFormula = savedFormulas.get(keyToFormula(separateFormula));
             System.out.println("Hey, I am calculate this formula before!");
         } else {
-            parsTheFormula(parsePolishFormula, polishFormula);
-            savedFormulas.put(keyToFormula(polishFormula), parsePolishFormula);
+            parsePolishFormula = new ReversePolishNotation().polishFormula(separateFormula);
+            savedFormulas.put(keyToFormula(separateFormula), parsePolishFormula);
         }
-    }
-
-
-    private void parsTheFormula(LinkedList<Object> parsePolishFormula, LinkedList<String> polishFormula) {
-        for (String value : polishFormula) {
-            if (isDigital(value)) {
-                parsePolishFormula.add(Double.parseDouble(value));
-            } else parsePolishFormula.add(value);
-        }
+        return parsePolishFormula;
     }
 
     private static String keyToFormula(LinkedList<String> polishFormula) {

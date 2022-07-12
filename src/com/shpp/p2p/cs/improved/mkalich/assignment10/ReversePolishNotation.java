@@ -5,17 +5,17 @@ import java.util.Stack;
 
 public class ReversePolishNotation extends ValueType {
 
-    private final  LinkedList<String> polishFormula = new LinkedList<>();
-    private final  Stack<String> operators = new Stack<>();
+    private final LinkedList<Object> polishFormula = new LinkedList<>();
 
+    private final Stack<String> operators = new Stack<>();
 
-    public LinkedList<String> polishFormula(LinkedList<String> splitFormula) {
+    public LinkedList<Object> polishFormula(LinkedList<String> splitFormula) {
         for (String value : splitFormula) {
 
-            if (isDigital(value) || isLetter(value))
+            if (isDigital(value))
+                polishFormula.add(Double.parseDouble(value));
+            else if (isLetter(value))
                 polishFormula.add(value);
-            else if (isLetter(value));
-
             else if (isOperator(value)) {
 
                 if (operators.isEmpty() || value.equals("("))
@@ -37,13 +37,13 @@ public class ReversePolishNotation extends ValueType {
         return polishFormula;
     }
 
-    private void  MoveAccordingToOperatorPrecedence(String value){
+    private void MoveAccordingToOperatorPrecedence(String value) {
         while (!operators.isEmpty() && priorityOfOperator(value) <= priorityOfOperator(operators.peek()))
             polishFormula.add(operators.pop());
         operators.add(value);
     }
 
-    private void moveEverythingInBrackets(){
+    private void moveEverythingInBrackets() {
         while (true) {
             if (operators.peek().equals("(")) break;
             else polishFormula.add(operators.pop());
