@@ -3,13 +3,13 @@ package com.shpp.p2p.cs.improved.mkalich.assignment10;
 import java.util.LinkedList;
 import java.util.Stack;
 
-public class Calculator extends ValueType{
+public class Calculator extends ValueType {
 
-    private static final Stack<Object> result = new Stack<>();
+    private final Stack<Object> result = new Stack<>();
 
-    public Object result(LinkedList<Object> polishFormula){
+    public Object result(LinkedList<Object> polishFormula) {
 
-        for (Object value: polishFormula){
+        for (Object value : polishFormula) {
             if (value.getClass().equals(Double.class)) result.add(value);
             else doTheCalculation((String) value);
         }
@@ -18,33 +18,33 @@ public class Calculator extends ValueType{
 
     private void doTheCalculation(String operator) {
 
-            if (priorityOfOperator(operator) < 4) {
+        if (priorityOfOperator(operator) < 4) {
 
-                double firstDigital = (double) result.pop();
-                double secondDigital = (double) result.pop();
+            double firstDigital = (double) result.pop();
+            double secondDigital = (double) result.pop();
 
-                switch (operator) {
-                    case "+" -> result.add(secondDigital + firstDigital);
-                    case "-" -> result.add(secondDigital - firstDigital);
-                    case "/" -> result.add(secondDigital / firstDigital);
-                    case "*" -> result.add(secondDigital * firstDigital);
-                    case "^" -> result.add(Math.pow(secondDigital, firstDigital));
-                }
-            } else {
-
-                double firstDigital = (double) result.pop();
-
-                switch (operator) {
-                    case "sin" -> result.add(Math.sin(firstDigital));
-                    case "cos" -> result.add(Math.cos(firstDigital));
-                    case "tan" -> result.add(Math.tan(firstDigital));
-                    case "atan" -> result.add(Math.atan(firstDigital));
-                    case "log10" -> result.add(Math.log10(firstDigital));
-                    case "log2" -> result.add(Math.log(firstDigital) / Math.log(2));
-                    case "sqrt" -> result.add(Math.sqrt(firstDigital));
-                }
+            switch (operator) {
+                case "+" -> result.add(secondDigital + firstDigital);
+                case "-" -> result.add(secondDigital - firstDigital);
+                case "/" -> result.add(secondDigital / firstDigital);
+                case "*" -> result.add(secondDigital * firstDigital);
+                case "^" -> result.add(Math.pow(secondDigital, firstDigital));
             }
+        } else {
 
+            double firstDigital = (double) result.pop();
+
+            switch (operator) {
+                case "sin" -> result.add(Math.sin(firstDigital));
+                case "cos" -> result.add(Math.cos(firstDigital));
+                case "tan" -> result.add(Math.tan(firstDigital));
+                case "atan" -> result.add(Math.atan(firstDigital));
+                case "log10" -> result.add(Math.log10(firstDigital));
+                case "log2" -> result.add(Math.log(firstDigital) / Math.log(2));
+                case "sqrt" -> result.add(Math.sqrt(firstDigital));
+            }
         }
+
+    }
 
 }

@@ -48,6 +48,8 @@ public class SeparateNumbersAndOperators extends ValueType {
             dividedFormula.set(0, UNARY_MINUS);
         }
         for (int i = 0; i < dividedFormula.size() - 2; i++) {
+            if (dividedFormula.get(i).equals(")"))
+                continue;
             if (isOperator(dividedFormula.get(i)) && dividedFormula.get(i + 1).equals("-") && isDigital(dividedFormula.get(i + 2))) {
                 dividedFormula.set(i + 2, "-" + dividedFormula.get(i + 2));
                 dividedFormula.remove(i + 1);
@@ -56,6 +58,11 @@ public class SeparateNumbersAndOperators extends ValueType {
         }
         for (int i = 0; i < dividedFormula.size() - 2; i++) {
             if (isOperator(dividedFormula.get(i)) && dividedFormula.get(i + 1).equals("-") && isOperator(dividedFormula.get(i + 2))) {
+                dividedFormula.set(i + 1, UNARY_MINUS);
+            }
+        }
+        for (int i = 0; i < dividedFormula.size() - 2; i++) {
+            if (isOperator(dividedFormula.get(i)) && dividedFormula.get(i + 1).equals("-") && isLetter(dividedFormula.get(i + 2))) {
                 dividedFormula.set(i + 1, UNARY_MINUS);
             }
         }

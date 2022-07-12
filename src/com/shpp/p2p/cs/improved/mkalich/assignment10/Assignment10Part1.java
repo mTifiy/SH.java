@@ -11,24 +11,27 @@ public class Assignment10Part1 {
 
         LinkedList<String> separateFormula = new SeparateNumbersAndOperators().separateNumbersAndOperators(args[0]);
 
-        LinkedList<Object> parsePolishFormula = parsingOrOverwritingFormula(separateFormula);
+        LinkedList<Object> parsePolishFormula = new Assignment10Part1().parsingOrOverwritingFormula(separateFormula);
 
-        replaceArguments(args, parsePolishFormula);
+        LinkedList<Object> parsePolishFormulaToCalculate = replaceArguments(args, parsePolishFormula);
 
-        Double answer = (Double) new Calculator().result(parsePolishFormula);
+        Double answer = (Double) new Calculator().result(parsePolishFormulaToCalculate);
         System.out.println(answer);
+
     }
 
-    private static void replaceArguments(String[] args, LinkedList<Object> parsePolishFormula) {
+    private static LinkedList<Object> replaceArguments(String[] args, LinkedList<Object> parsePolishFormula) {
+        LinkedList<Object> result = (LinkedList<Object>) parsePolishFormula.clone();
         for (int i = 1; i < args.length; i++) {
             LinkedList<String> arg = new SeparateNumbersAndOperators().separateNumbersAndOperators(args[i]);
-            for (int j = 0; j < parsePolishFormula.size(); j++)
-                if (parsePolishFormula.get(j).equals(arg.get(0)))
-                    parsePolishFormula.set(j, Double.parseDouble(arg.get(2)));
+            for (int j = 0; j < result.size(); j++)
+                if (result.get(j).equals(arg.get(0)))
+                    result.set(j, Double.parseDouble(arg.get(2)));
         }
+        return result;
     }
 
-    private static LinkedList<Object> parsingOrOverwritingFormula(LinkedList<String> separateFormula) {
+    private LinkedList<Object> parsingOrOverwritingFormula(LinkedList<String> separateFormula) {
         LinkedList<Object> parsePolishFormula;
         if (savedFormulas.containsKey(keyToFormula(separateFormula))) {
             parsePolishFormula = savedFormulas.get(keyToFormula(separateFormula));
