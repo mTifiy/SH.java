@@ -2,7 +2,7 @@ package com.shpp.p2p.cs.improved.mkalich.assignment10;
 
 import java.util.LinkedList;
 
-public class SeparateNumbersAndOperators extends ValueType  {
+public class SeparateNumbersAndOperators extends ValueType {
 
     private final LinkedList<String> dividedFormula = new LinkedList<>();
 
@@ -18,11 +18,11 @@ public class SeparateNumbersAndOperators extends ValueType  {
     }
 
     private void correctUnaryOperators(LinkedList<String> finalDividedFormula) {
-        for (String value: dividedFormula){
-            if (value.equals(UNARY_MINUS)){
+        for (String value : dividedFormula) {
+            if (value.equals(UNARY_MINUS)) {
                 finalDividedFormula.add("-1");
                 finalDividedFormula.add("*");
-            }else{
+            } else {
                 finalDividedFormula.add(value);
             }
         }
@@ -35,8 +35,7 @@ public class SeparateNumbersAndOperators extends ValueType  {
                     dividedFormula.set(i, "log10");
                     dividedFormula.remove(i + 1);
                     i--;
-                }
-                if (dividedFormula.get(i).equals("log") && dividedFormula.get(i + 1).equals("2")) {
+                } else if (dividedFormula.get(i).equals("log") && dividedFormula.get(i + 1).equals("2")) {
                     dividedFormula.set(i, "log2");
                     dividedFormula.remove(i + 1);
                     i--;

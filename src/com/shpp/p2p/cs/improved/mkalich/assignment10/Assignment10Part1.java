@@ -3,7 +3,7 @@ package com.shpp.p2p.cs.improved.mkalich.assignment10;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Assignment10Part1 extends ValueType {
+public class Assignment10Part1 {
 
     public static HashMap<String, LinkedList<Object>> savedFormulas = new HashMap<>();
 
