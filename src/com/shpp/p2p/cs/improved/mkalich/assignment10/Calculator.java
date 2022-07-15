@@ -3,10 +3,26 @@ package com.shpp.p2p.cs.improved.mkalich.assignment10;
 import java.util.LinkedList;
 import java.util.Stack;
 
+/**
+ * This class evaluates the mathematical expression of reverse * Polish notation
+ */
 public class Calculator extends ValueType {
-
+    /**
+     * This stack is used to calculate.
+     * Digits from the array with reverse Polish notation are added to it one by one,
+     * and if an operator is encountered, then calculations occur with a change in the stack.
+     */
     private final Stack<Object> result = new Stack<>();
 
+    /**
+     * This method returns the result of calculating a mathematical expression
+     * reverse polish notation.
+     * Numbers are added to the stack in turn, if an operator is encountered, then the calculation takes place
+     * with stack change
+     *
+     * @param polishFormula reverse polish notation
+     * @return result of calculation
+     */
     public Object result(LinkedList<Object> polishFormula) {
 
         for (Object value : polishFormula) {
@@ -16,6 +32,14 @@ public class Calculator extends ValueType {
         return result.get(0);
     }
 
+    /**
+     * This method performs calculations on the stack.
+     * when a string with an operator enters the method input, depending on the operator
+     * the last 2 or 1 values are taken from the stack, after which calculations are performed on them,
+     * and the result is pushed back onto the stack.
+     *
+     * @param operator A string with a mathematical operator.
+     */
     private void doTheCalculation(String operator) {
 
         if (priorityOfOperator(operator) < 4) {
