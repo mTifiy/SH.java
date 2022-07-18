@@ -10,9 +10,11 @@ import java.util.HashMap;
 
 public class Assignment12Part1 {
 
+    private final int RUNNING_COLOR_COEFFICIENT = 30;
+
     private static final boolean inDepthSearch = true;
 
-    private static final String FILE_PATH_BY_DEFAULT = "assets\\assignmetn12\\zero.png";
+    private static final String FILE_PATH_BY_DEFAULT = "assets\\assignmetn12\\2.png";
 
     private GraphTop[][] image;
 
@@ -21,10 +23,9 @@ public class Assignment12Part1 {
         Assignment12Part1 thisClass = new Assignment12Part1();
         if (thisClass.initializeImageSuccess()) {
             thisClass.markUpTheBackground();
-            thisClass.printObject();
-//            FindSilhouettes silhouettes = new FindSilhouettes(thisClass.image, inDepthSearch);
-//            silhouettes.taggedOllObjectsOnScreen();
-//            silhouettes.printObject();
+            FindSilhouettes silhouettes = new FindSilhouettes(thisClass.image, inDepthSearch);
+            silhouettes.taggedOllObjectsOnScreen();
+            silhouettes.printObject();
 
         }
     }
@@ -57,7 +58,7 @@ public class Assignment12Part1 {
 
         for (int col = 0; col < image.length; col++) {
 
-            String currentPixel = key(0, col);
+            String currentPixel = key(col, 0);
 
             if (colors.containsKey(currentPixel)) colors.put(currentPixel, colors.get(currentPixel) + 1);
             else colors.put(currentPixel, 1);
@@ -90,28 +91,27 @@ public class Assignment12Part1 {
                 image[row][col].getAlpha();
     }
 
-    private void printObject() {
-        for (GraphTop[] graphPoint : image) {
-            for (GraphTop point : graphPoint) {
-                System.out.print(point.belongToObject + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
+    /**
+     * this method returns the result of comparing pixels by color
+     *
+     * @param row        coordinates of the pixel being checked along the y-axis
+     * @param col        x-coordinates of the pixel being checked
+     * @return is the pixel in the array eligible to start the recursion
+     */
     private boolean checkColor(int row, int col, int[] currentColor) {
 
         int red = image[row][col].getRed();
         int green = image[row][col].getGreen();
         int blue = image[row][col].getBlue();
+        int alpha = image[row][col].getAlpha();
 
         int redOld = currentColor[0];
         int greenOld = currentColor[1];
         int blueOld = currentColor[2];
-
-        return (Math.abs(red - redOld) <= 30 &&
-                Math.abs(green - greenOld) <= 30 &&
-                Math.abs(blue - blueOld) <= 30);
+        int alphaAld = currentColor[3];
+        return (Math.abs(red - redOld) <= RUNNING_COLOR_COEFFICIENT &&
+                Math.abs(green - greenOld) <= RUNNING_COLOR_COEFFICIENT &&
+                Math.abs(blue - blueOld) <= RUNNING_COLOR_COEFFICIENT &&
+                Math.abs(alpha - alphaAld) <= RUNNING_COLOR_COEFFICIENT);
     }
 }

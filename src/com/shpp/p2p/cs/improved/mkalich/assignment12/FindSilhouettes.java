@@ -13,13 +13,7 @@ public class FindSilhouettes {
         this.inDepthSearch = inDepthSearch;
     }
 
-    private final int RUNNING_COLOR_COEFFICIENT = 30;
-
-    private int belongToObject = 0;
-    /**
-     * this variable switches the pixel processing mode1
-     */
-    private boolean theFonIsNotTagged = true;
+    private int belongToObject = 1;
     /**
      * This variable help to calculate the garbage pixels
      */
@@ -39,12 +33,11 @@ public class FindSilhouettes {
         for (int row = 0; row < image.length; row++) {
             for (int col = 0; col < image[row].length; col++) {
                 if (!image[row][col].isVisited) {
-                    belongToObject = theFonIsNotTagged ? theFonMaker : ++belongToObject;
+                    belongToObject++;
                     garbagePixel = 0;
                     if (inDepthSearch) taggedTheObjectDepth(row, col);
                     else taggedTheObjectWide(row, col);
 //                    ifObjectIsGarbed();
-                    theFonIsNotTagged = false;
                 }
             }
         }
@@ -160,13 +153,8 @@ public class FindSilhouettes {
      * @return is the pixel in the array eligible to start the recursion ?
      */
     private boolean checkTheWey(int row, int col, int currentRow, int currentCol) {
-
         if (pixelOutOfTheScreen(row, col)) return false;
-
-        if (theFonIsNotTagged) {
-            if (image[row][col].isVisited) return false;
-            else return checkColor(row, col, currentRow, currentCol);
-        } else return !(image[row][col].isVisited);
+        return !(image[row][col].isVisited);
     }
 
     /**
@@ -178,30 +166,6 @@ public class FindSilhouettes {
      */
     private boolean pixelOutOfTheScreen(int row, int col) {
         return ((row >= image.length || row < 0) || (col >= image[row].length || col < 0));
-    }
-
-    /**
-     * this method returns the result of comparing pixels by color
-     *
-     * @param row        coordinates of the pixel being checked along the y-axis
-     * @param col        x-coordinates of the pixel being checked
-     * @param currentRow coordinates of the compared pixel along the Y-axis
-     * @param currentCol x-coordinates of the compared pixel
-     * @return is the pixel in the array eligible to start the recursion
-     */
-    private boolean checkColor(int row, int col, int currentRow, int currentCol) {
-
-        int red = image[row][col].getRed();
-        int green = image[row][col].getGreen();
-        int blue = image[row][col].getBlue();
-
-        int redOld = image[currentRow][currentCol].getRed();
-        int greenOld = image[currentRow][currentCol].getGreen();
-        int blueOld = image[currentRow][currentCol].getBlue();
-
-        return (Math.abs(red - redOld) <= RUNNING_COLOR_COEFFICIENT &&
-                Math.abs(green - greenOld) <= RUNNING_COLOR_COEFFICIENT &&
-                Math.abs(blue - blueOld) <= RUNNING_COLOR_COEFFICIENT);
     }
 
     /**
