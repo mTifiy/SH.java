@@ -1,22 +1,19 @@
 package com.shpp.p2p.cs.improved.mkalich.assignment12;
 
-import com.shpp.p2p.cs.mkalich.assignment13.Interface;
-
-import java.io.IOException;
 import java.util.LinkedList;
 
 public class FindSilhouettes {
 
-    FindSilhouettes(String weyToFile, boolean inDepthSearch){
-        this.WEY_TO_FILE = weyToFile;
+    private final boolean inDepthSearch;
+
+    private final GraphTop[][] image;
+
+    FindSilhouettes(GraphTop[][] image, boolean inDepthSearch){
+        this.image = image;
         this.inDepthSearch = inDepthSearch;
     }
 
-    private final boolean inDepthSearch;
-
-    private final String WEY_TO_FILE;
-
-    private GraphTop[][] image;
+    private final int RUNNING_COLOR_COEFFICIENT = 30;
 
     private int belongToObject = 0;
     /**
@@ -26,7 +23,7 @@ public class FindSilhouettes {
     /**
      * This variable help to calculate the garbage pixels
      */
-    private int garbagePixel = 0;
+    private int garbagePixel = 1;
     /**
      * The number of  background in the matrix
      */
@@ -36,15 +33,7 @@ public class FindSilhouettes {
      */
     private int NUMBER_OF_GARBAGE_PIXELS_FOR_DEL = 10;
 
-    public boolean initializeImageSuccess() {
-        try {
-            image = new GraphArray().getImageArray(WEY_TO_FILE);
-            return true;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
+
 
     public void taggedOllObjectsOnScreen() {
         for (int row = 0; row < image.length; row++) {
@@ -54,7 +43,7 @@ public class FindSilhouettes {
                     garbagePixel = 0;
                     if (inDepthSearch) taggedTheObjectDepth(row, col);
                     else taggedTheObjectWide(row, col);
-                    ifObjectIsGarbed();
+//                    ifObjectIsGarbed();
                     theFonIsNotTagged = false;
                 }
             }
@@ -210,9 +199,9 @@ public class FindSilhouettes {
         int greenOld = image[currentRow][currentCol].getGreen();
         int blueOld = image[currentRow][currentCol].getBlue();
 
-        return (Math.abs(red - redOld) <= Interface.RUNNING_COLOR_COEFFICIENT &&
-                Math.abs(green - greenOld) <= Interface.RUNNING_COLOR_COEFFICIENT &&
-                Math.abs(blue - blueOld) <= Interface.RUNNING_COLOR_COEFFICIENT);
+        return (Math.abs(red - redOld) <= RUNNING_COLOR_COEFFICIENT &&
+                Math.abs(green - greenOld) <= RUNNING_COLOR_COEFFICIENT &&
+                Math.abs(blue - blueOld) <= RUNNING_COLOR_COEFFICIENT);
     }
 
     /**
