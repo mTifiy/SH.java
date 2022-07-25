@@ -2,34 +2,55 @@ package com.shpp.p2p.cs.improved.mkalich.assignment12;
 
 import java.util.LinkedList;
 
-public class FindSilhouettes {
+public class FindSilhouettes implements ConstantsControl {
 
-    private final boolean inDepthSearch;
-
+    /**
+     * An array that creates an image matrix including the color of a pixel,
+     * whether the pixel was processed, and whether the pixel belongs to the object (background or silhouette)
+     */
     private final GraphTop[][] image;
 
-    FindSilhouettes(GraphTop[][] image, boolean inDepthSearch){
+    /**
+     * Class constructor
+     *
+     * @param image An array that creates an image matrix including the color of a pixel,
+     * whether the pixel was processed, and whether the pixel belongs to the object (background or silhouette)
+     */
+    FindSilhouettes(GraphTop[][] image) {
         this.image = image;
-        this.inDepthSearch = inDepthSearch;
     }
 
+    /**
+     * Which object (silhouette) the pixel belongs to
+     */
     private int belongToObject = 1;
+
     /**
      * This variable help to calculate the garbage pixels
      */
     private int garbagePixel = 1;
-    /**
-     * The number of  background in the matrix
-     */
-    private final int theFonMaker = 1;
+
     /**
      * The max number of pixels in the group
      */
-    private int NUMBER_OF_GARBAGE_PIXELS_FOR_DEL = 10;
+    private int NUMBER_OF_GARBAGE_PIXELS_FOR_DEL;
 
+    /**
+     * This method calculate return the number of silhouettes
+     * @return number of silhouettes
+     */
+    public int calculateTheSilhouettes() {
+        taggedOllObjectsOnScreen();
+        return belongToObject - theFonMaker;
+    }
 
-
-    public void taggedOllObjectsOnScreen() {
+    /**
+     * This method marks the  silhouettes.
+     * Method increases the pixel marking by 1 for the new silhouette
+     * If the number of pixels in the silhouette is less than the minimum value,
+     * we refer this group to the background
+     */
+    private void taggedOllObjectsOnScreen() {
         for (int row = 0; row < image.length; row++) {
             for (int col = 0; col < image[row].length; col++) {
                 if (!image[row][col].isVisited) {
@@ -37,7 +58,7 @@ public class FindSilhouettes {
                     garbagePixel = 0;
                     if (inDepthSearch) taggedTheObjectDepth(row, col);
                     else taggedTheObjectWide(row, col);
-//                    ifObjectIsGarbed();
+                    ifObjectIsGarbed();
                 }
             }
         }
@@ -48,6 +69,7 @@ public class FindSilhouettes {
      * first, the path that the method will take is checked.
      * if the pixel matches the requirements - the method is called on the new pixel
      * if not, go to the next check
+     *
      * @param row pixel y-coordinates
      * @param col x-coordinates of a pixel
      */
@@ -72,6 +94,7 @@ public class FindSilhouettes {
 
         garbagePixel++;
     }
+
     /**
      * This method implements a width search.
      * To the created LinkedList the coordinates of the next pixel in the matrix are entered
@@ -115,6 +138,7 @@ public class FindSilhouettes {
      * if not, then the pixels are assigned to the background
      */
     private void ifObjectIsGarbed() {
+        countNumberOfGarbagePixels();
         if (garbagePixel <= NUMBER_OF_GARBAGE_PIXELS_FOR_DEL) {
             for (GraphTop[] row : image) {
                 for (GraphTop col : row) {
@@ -125,6 +149,17 @@ public class FindSilhouettes {
             belongToObject--;
         }
     }
+
+    /**
+     * This methode calculates % garbage pixels
+     * the sum of all pixels divided by 100 and multiplied by the PIXEL_DROPOUT_RATE factor
+     */
+    private void countNumberOfGarbagePixels() {
+        NUMBER_OF_GARBAGE_PIXELS_FOR_DEL =
+                (int) (((image.length * image[0].length) / 100) *
+                        PIXEL_DROPOUT_RATE);
+    }
+
 
     /**
      * This method marks a pixel as visited and
@@ -168,18 +203,4 @@ public class FindSilhouettes {
         return ((row >= image.length || row < 0) || (col >= image[row].length || col < 0));
     }
 
-    /**
-     * This method displays the result of processing the image on the screen.
-     * each pixel in the picture is assigned an object number (silhouette)
-     * Not mandatory.
-     */
-    public void printObject() {
-        for (GraphTop[] graphPoint : image) {
-            for (GraphTop point : graphPoint) {
-                System.out.print(point.belongToObject + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
 }
