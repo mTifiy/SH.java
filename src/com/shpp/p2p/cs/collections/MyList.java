@@ -1,6 +1,6 @@
 package com.shpp.p2p.cs.collections;
 
-public interface MyList<E> {
+public interface MyList<E> extends Iterable<E> {
 
     /**
      * Метод добавляет значение в конец коллекции

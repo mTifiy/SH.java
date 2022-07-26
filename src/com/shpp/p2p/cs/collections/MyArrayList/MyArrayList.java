@@ -2,6 +2,8 @@ package com.shpp.p2p.cs.collections.MyArrayList;
 
 import com.shpp.p2p.cs.collections.MyList;
 
+import java.util.Iterator;
+
 /**
  * Данный клас представляет собой упрощенный класс ArrayList из java.util
  * Данный клас являеться колекцией, которая подстраивает размер массива под потребности пользователя.
@@ -193,4 +195,8 @@ public class MyArrayList<E> implements MyList<E> {
         if (size == volume) volume = (size * 3) / 2 + 1;
     }
 
+    @Override
+    public Iterator<E> iterator() {
+        return new MyIteratorArray<E>(elementData, size);
+    }
 }
