@@ -3,20 +3,25 @@ package com.shpp.p2p.cs.collections.MyLinkedList;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
-public class MyIteratorLinked<E> implements Iterator<E> {
-     Node<E> element;
+public class MyIteratorLinked<E> extends MyLinkedList<E> implements Iterator<E> {
+    int index = 0;
+    int size;
+    Node<E> myLink;
 
-    MyIteratorLinked(Node<E> element){
-        this.element = element;
+    MyIteratorLinked(Node<E> myLink){
+        this.myLink = myLink;
     }
+
     @Override
     public boolean hasNext() {
-        return element.next != null;
+        return myLink != null;
     }
 
     @Override
     public E next() {
-        return element.next.value;
+        E value = myLink.value;
+        myLink = myLink.next;
+        return value;
     }
 
     @Override

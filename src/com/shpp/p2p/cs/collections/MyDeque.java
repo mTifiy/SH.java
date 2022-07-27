@@ -4,5 +4,7 @@ public interface MyDeque<E> {
     void addLast(E value);
     void removeLast();
     void removeFirst();
+    E pollFirst();
+    E pollLast();
 
     }

@@ -6,7 +6,7 @@ import com.shpp.p2p.cs.collections.MyList;
 import java.util.Iterator;
 
 public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
-    public int size = 0;
+    private int size = 0;
     private Node<E> first;
     private Node<E> last;
     private Node<E> lastReturnNode;
@@ -78,13 +78,16 @@ public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
 
     @Override
     public void remove(int index) {
-        if (index < size && index >= 0) {
+        if (index == size - 1) {
+            removeFirst();
+        } else if (index == 0) {
+            removeLast();
+        } else if (index < size && index >= 0) {
 
             Node<E> nodePrev = last;
             Node<E> nodeNext = nodePrev.next.next;
 
             for (int i = 0; i < index - 1; i++) {
-                System.out.println(i);
                 nodePrev = nodePrev.next;
                 nodeNext = nodePrev.next.next;
             }
@@ -92,6 +95,8 @@ public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
             nodeNext.previous = nodePrev;
             size--;
             System.gc();
+        } else if (size == 1) {
+            clear();
         } else throw new IndexOutOfBoundsException();
     }
 
@@ -102,13 +107,11 @@ public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
 
     @Override
     public void clear() {
+        last = null;
+        first = null;
+        lastReturnNode = null;
         size = 0;
         System.gc();
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-        return new MyIteratorLinked<E>(lastReturnNode);
     }
 
     @Override
@@ -118,22 +121,66 @@ public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
         } else {
             Node<E> newNode = last;
             last = new Node<>(value, newNode, null);
-            newNode.next = last;
+            newNode.previous = last;
         }
         size++;
     }
 
     @Override
     public void removeLast() {
-        last = last.next;
-        last.previous = null;
-        size--;
+        if (size == 1) {
+            clear();
+        } else {
+            first = first.previous;
+            first.next = null;
+            size--;
+            System.gc();
+        }
     }
 
     @Override
     public void removeFirst() {
-        first = first.previous;
-        first.next = null;
-        size--;
+        if (size == 1) {
+            clear();
+        } else {
+            last = last.next;
+            last.previous = null;
+            size--;
+            System.gc();
+        }
+    }
+
+    @Override
+    public E pollFirst() {
+        E value = first.value;
+        removeFirst();
+        return value;
+    }
+
+    @Override
+    public E pollLast() {
+        E value = last.value;
+        removeLast();
+        return value;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new MyIteratorLinked<E>(last);
+    }
+
+    @Override
+    public String toString() {
+        Node<E> currentNode = last;
+        StringBuilder s = new StringBuilder(currentNode == null ? "[]" : "[");
+        int index = 0;
+        for (; index < size; index++) {
+            assert currentNode != null;
+            s.append(currentNode.value);
+            if (index < size - 1) s.append(", ");
+            else s.append("]");
+            currentNode = currentNode.next;
+        }
+        return s.toString();
     }
 }
