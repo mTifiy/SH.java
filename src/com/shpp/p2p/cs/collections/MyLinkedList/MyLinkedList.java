@@ -26,7 +26,7 @@ public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
     @Override
     public void add(int index, E value) {
 
-        if (index < size && index >= 0) {
+        if (index < size && index > 0) {
 
             Node<E> nodePrev = last;
             Node<E> nodeNext = nodePrev.next;
@@ -42,7 +42,12 @@ public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
             nodeNext.previous = newNode;
             size++;
 
-        } else throw new IndexOutOfBoundsException();
+        } else if (index == 0){
+            Node<E> newNode = new Node<>(value, last, null);
+            last = newNode;
+            size++;
+        }
+        else throw new IndexOutOfBoundsException();
     }
 
     @Override
@@ -79,9 +84,9 @@ public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
     @Override
     public void remove(int index) {
         if (index == size - 1) {
-            removeFirst();
-        } else if (index == 0) {
             removeLast();
+        } else if (index == 0) {
+            removeFirst();
         } else if (index < size && index >= 0) {
 
             Node<E> nodePrev = last;
@@ -119,12 +124,25 @@ public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
         if (size == 0) {
             first = last = new Node<>(value, null, null);
         } else {
+            Node<E> newNode = first;
+            first = new Node<>(value, null, first);
+            newNode.next = first;
+        }
+        size++;
+    }
+
+    @Override
+    public void addFirst(E value) {
+        if (size == 0) {
+            first = last = new Node<>(value, null, null);
+        } else {
             Node<E> newNode = last;
             last = new Node<>(value, newNode, null);
             newNode.previous = last;
         }
         size++;
     }
+
 
     @Override
     public void removeLast() {
@@ -151,16 +169,16 @@ public class MyLinkedList<E> implements MyDeque<E>, MyList<E> {
     }
 
     @Override
-    public E pollFirst() {
+    public E pollLast() {
         E value = first.value;
-        removeFirst();
+        removeLast();
         return value;
     }
 
     @Override
-    public E pollLast() {
+    public E pollFirst() {
         E value = last.value;
-        removeLast();
+        removeFirst();
         return value;
     }
 
