@@ -14,7 +14,7 @@ public class FindSilhouettes implements ConstantsControl {
      * Class constructor
      *
      * @param image An array that creates an image matrix including the color of a pixel,
-     * whether the pixel was processed, and whether the pixel belongs to the object (background or silhouette)
+     *              whether the pixel was processed, and whether the pixel belongs to the object (background or silhouette)
      */
     FindSilhouettes(GraphTop[][] image) {
         this.image = image;
@@ -37,6 +37,7 @@ public class FindSilhouettes implements ConstantsControl {
 
     /**
      * This method calculate return the number of silhouettes
+     *
      * @return number of silhouettes
      */
     public int calculateTheSilhouettes() {
@@ -159,7 +160,6 @@ public class FindSilhouettes implements ConstantsControl {
                 (int) (((image.length * image[0].length) / 100) *
                         PIXEL_DROPOUT_RATE);
     }
-
 
     /**
      * This method marks a pixel as visited and

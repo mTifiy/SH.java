@@ -1,54 +1,64 @@
 package com.shpp.p2p.cs.collections;
 
+/**
+ * This interface stores the methods that are described and implemented in ArrayList and LinkedList
+ *
+ * @param <E> The type of the object that the classes work with
+ */
 public interface MyList<E> extends Iterable<E> {
 
     /**
-     * Метод добавляет значение в конец коллекции
-     * @param value значение переданное в качестве аргумента
+     * The method adds a value to the end of the collection
+     *
+     * @param value value passed as argument
      */
     void add(E value);
 
     /**
-     * Метод добавляет значение в коллекцию под указанным индексом,
-     * смещяя остальные значения в коллекции
-     * @param index место добавления значения
-     * @param value добавляемое значение
+     * The method adds a value to the collection at the specified index,
+     * offsetting the rest of the values in the collection
+     *
+     * @param index where to add the value
+     * @param value value to add
      */
     void add(int index, E value);
 
     /**
-     * Метод возвращяет значение из коллекции под указанным индексом.
-     * @param index индекс значения в коллекции
-     * @return запрашиваемое значение
+     * The method returns a value from the collection at the specified index.
+     *
+     * @param index the index of the value in the collection
+     * @return requested value
      */
     E get(int index);
 
     /**
-     * @return текущий размер коллекции
+     * @return current collection size
      */
     int size();
 
     /**
-     * Метод заменяет значение в коллекции под указаным индексом
-     * @param index индекс заменяемого значение
-     * @param value значение для замены
+     * The method replaces the value in the collection at the specified index
+     *
+     * @param index index of the value being replaced
+     * @param value value to replace
      */
     void set(int index, E value);
 
     /**
-     * Метод удаляет значение из коллекции под указаным индексом
-     * @param index индекс удаляемого значения
+     * The method removes the value from the collection at the specified index
+     *
+     * @param index the index of the value to be removed
      */
     void remove(int index);
 
     /**
-     * return true если коллекция пустая
-     * return false если в коллеции находяться элементы.
+     * return true if the collection is empty
+     * return false if the collection contains elements.
      */
     boolean isEmpty();
 
     /**
-     * Метод удаляет все данные из коллекции
+     * The method removes all data from the collection
      */
     void clear();
 

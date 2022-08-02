@@ -1,45 +1,48 @@
-package com.shpp.p2p.cs.collections.MyArrayList;
+package com.shpp.p2p.cs.collections.myArrayList;
 
 import com.shpp.p2p.cs.collections.MyList;
 
 import java.util.Iterator;
 
 /**
- * Данный клас представляет собой упрощенный класс ArrayList из java.util
- * Данный клас являеться колекцией, которая подстраивает размер массива под потребности пользователя.
- * Клас хранит в себе массив с типом Object который потом приводиться к требуемому типу при помощи generify.
- * Хранение данный происходит в примитивном массиве. доступ к данным осуществляеться путем вызова методов
- * с указанием индекса.
- * Массив данных в колекции имеет больший размер чем доступно пользователю коллекции. Сделано это с целью
- * ускорить работу класса.
- * При изминении размера коллекции (добавлении или удалении данных) если размер коллекции становиться равным размеру
- * массива создаеться клон коллекции после чего он копируеться в заново обьявленный массив с увеличеным размером,
- * и добавлением нового элемента.
+ * This class is a simplified ArrayList class from java.util
+ * This class is a collection that adjusts the size of the array to the needs of the user.
+ * The class stores an array of type Object which is then converted to the required type using generify.
+ * Data is stored in a primitive array. data is accessed by calling methods
+ * with index.
+ * The data array in the collection has a larger size than is available to the user of the collection. It was done for the purpose
+ * speed up the class.
+ * When changing the size of the collection (adding or deleting data), if the size of the collection becomes equal to the size
+ * of the array, a clone of the collection is created, after which it is copied into a newly declared array with an increased size,
+ * and adding a new element.
  *
- * @param <E> Тип данных с которым будет работать коллекция
+ * @param <E> The data type that the collection will work with
  */
 public class MyArrayList<E> implements MyList<E> {
 
     /**
-     * Размер вместительности массива по дефолту
+     * Default array capacity size
      */
     private final static int DEFAULT_VOLUME = 10;
+
     /**
-     * текущий размер вместимости массива
+     * Current array capacity size
      */
     private int volume;
+
     /**
-     * текущий размер коллекции
+     * Current collection size
      */
     private int size = 0;
+
     /**
-     * обьявление массива
+     * Array declaration
      */
     private E[] elementData;
 
     /**
-     * Конструктор класса который устанавливает размер массива по дефолту, инициализирует текущее значение
-     * вместительности массива и инициализирует сам массив.
+     * The class constructor, which sets the default size of the array, initializes the current value
+     * the capacity of the array and initializes the array itself.
      */
     public MyArrayList() {
         volume = DEFAULT_VOLUME;
@@ -47,10 +50,10 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
-     * Конструктор класса который устанавливает размер массива от пользователя, инициализирует текущее значение
-     * вместительности массива и инициализирует сам массив.
+     * Class constructor that sets the size of the array from the user, initializes the current value
+     * the capacity of the array and initializes the array itself.
      *
-     * @param volume размер массива устанавливаемый пользователем
+     * @param volume array size set by the user
      */
     MyArrayList(int volume) {
         this.volume = volume;
@@ -63,89 +66,110 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
-     * Данный метод добавляет новое значение в начало коллекции
-     * Сперва проверяеться размер массива, и если он не удовлетворяет требованию, размер
-     * массива увеличиваеться.
-     * Затем создаеться временная копия массива, заново инициализируеться массив колекции с указаным размером,
-     * в него копируються данные из временного массива, и в конец коллекции добавляеться новый елемент.
-     * Временному массиву присваиваеться значение null и вызываеться garbed collector
+     * This method adds a new value to the beginning of the collection
+     * First, the size of the array is checked, and if it does not satisfy the requirement, the size
+     * array is increasing.
+     * Then a temporary copy of the array is created, the collection array is re-initialized with the specified size,
+     * The data from the temporary array is copied into it, and a new element is added to the end of the collection.
+     * Temporary array is set to null and called garbed collector
      *
-     * @param value елемент который требуеться добавить в конец коллекции
+     * @param value element to be added to the end of the collection
      */
     @Override
     public void add(E value) {
+
         checkTheVolume();
+
         E[] temporaryArray = elementData;
         elementData = (E[]) new Object[volume];
+
         System.arraycopy(temporaryArray, 0, elementData, 0, temporaryArray.length);
+
         elementData[size++] = value;
-        temporaryArray = null;
+
+        temporaryArray = null; // for gc
         System.gc();
     }
 
     /**
-     * Данный метод добавляет елемент в указанный пользователем индекс.
-     * Сперва проверяеться размер массива, и если он не удовлетворяет требованию, размер
-     * массива увеличиваеться.
-     * Затем создаеться временная копия массива, заново инициализируеться массив колекции с указаным размером,
-     * в него копируються данные из временного массива до указанного индекса, затем добавляеться указаный елемент,
-     * затем копируеться оставшаяся часть массива, и увеличиваеться размер коллекции.
-     * Метод может вызвать IndexOutOfBoundsException если указываемые индекс находиться в не размера коллекции
+     * This method adds an element to a user-specified index.
+     * First, the size of the array is checked, and if it does not satisfy the requirement, the size
+     * array is increasing.
+     * Then a temporary copy of the array is created, the collection array is re-initialized with the specified size,
+     * data from the temporary array is copied to it up to the specified index, then the specified element is added,
+     * then copy the rest of the array and increase the size of the collection.
+     * Temporary array is set to null and called garbed collector
+     * The method may throw an IndexOutOfBoundsException if the specified index is not in the size of the collection
      *
-     * @param index индекс местоположения добовляемого элемента в массиве
-     * @param value добавляемый елемент
+     * @param index index of the location of the added element in the array
+     * @param value element to add
      */
     @Override
     public void add(int index, E value) {
+
         checkTheVolume();
+
         if (size >= index) {
 
+            int oldSize = size;
+            size++;
             E[] temporaryArray = elementData;
             elementData = (E[]) new Object[volume];
 
-            for (int i = 0, z = 0; i < temporaryArray.length; i++, z++) {
-                if (i == index) {
-                    elementData[i] = value;
-                    i++;
-                    if (index == size) continue;
+            for (int newIndex = 0, oldIndex = 0; oldIndex < oldSize; newIndex++, oldIndex++) {
+                if (newIndex == index) {
+                    elementData[newIndex] = value;
+                    newIndex++;
                 }
-                elementData[i] = temporaryArray[z];
+                elementData[newIndex] = temporaryArray[oldIndex];
             }
-            size++;
+
+            temporaryArray = null; // for gc
+            System.gc();
+
         } else throw new IndexOutOfBoundsException();
+
     }
 
     /**
-     * Данный метод удаляет значение зи массива под указаным индексом.
-     * создаеться временная копия массива, заново инициализируеться массив колекции с указаным размером,
-     * в него копируються данные из временного массива до указанного индекса, затем пропускаеться указаный елемент,
-     * затем копируеться оставшаяся часть массива, и размер коллекции уменьшаеться.
-     * Метод может вызвать IndexOutOfBoundsException если указываемые индекс находиться в не размера коллекции
+     * This method removes the value of the array at the specified index.
+     * a temporary copy of the array is created, the collection array is re-initialized with the specified size,
+     * data is copied into it from the temporary array up to the specified index, then the specified element is skipped,
+     * then the rest of the array is copied, and the size of the collection is reduced.
+     * Temporary array is set to null and called garbed collector
+     * The method may throw an IndexOutOfBoundsException if the specified index is not in the size of the collection
      *
-     * @param index индекс значения в массиве, который необходимо удалить
+     * @param index the index of the value in the array to be removed
      */
     @Override
     public void remove(int index) {
+
         if (size > 0 && index < size) {
+
             E[] temporaryArray = elementData;
             elementData = (E[]) new Object[temporaryArray.length];
-            for (int i = 0, z = 0; i < temporaryArray.length; i++, z++) {
-                if (i == index) {
-                    z--;
+
+            for (int oldIndex = 0, newIndex = 0; oldIndex < size; oldIndex++, newIndex++) {
+                if (oldIndex == index) {
+                    newIndex--;
                     continue;
                 }
-                elementData[z] = temporaryArray[i];
+                elementData[newIndex] = temporaryArray[oldIndex];
             }
+
             size--;
+            temporaryArray = null; // for gc
+            System.gc();
+
         } else throw new IndexOutOfBoundsException();
     }
 
     /**
-     * Данный метод изменяет значение в массиве под указонным индексом на значение введенное пользователем.
-     * Метод может вызвать IndexOutOfBoundsException если указываемые индекс находиться в не размера коллекции
+     * This method changes the value in the array under the specified index to the value entered by the user.
+     * The method may throw an IndexOutOfBoundsException if the specified index is not in the size of the collection
      *
-     * @param index индекс заменяемого значения
-     * @param value новое значение
+     * @param index index of value to replace
+     * @param value new value
      */
     @Override
     public void set(int index, E value) {
@@ -155,11 +179,11 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
-     * Данный метод возвращяет значение под указанным пользователем индексом.
-     * Метод может вызвать IndexOutOfBoundsException если указываемые индекс находиться в не размера коллекции
+     * This method returns the value at the index specified by the user.
+     * The method may throw an IndexOutOfBoundsException if the specified index is not in the size of the collection
      *
-     * @param index индекс запрашеваемого значения
-     * @return запрашивоемое значение
+     * @param index index of requested value
+     * @return requested value
      */
     @Override
     public E get(int index) {
@@ -170,7 +194,7 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
-     * Данный метод заново инициализирует массив, тем самым удаляя все данный с него.
+     * This method reinitialized the array, thereby deleting all data from it.
      */
     @Override
     public void clear() {
@@ -179,7 +203,7 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
-     * @return текущий размер коллекции
+     * @return current collection size
      */
     @Override
     public int size() {
@@ -187,8 +211,7 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
-     * return true если коллекция пустая
-     * return false если в коллеции находяться элементы.
+     * return true if the collection is empty * return false if the collection contains elements.
      */
     @Override
     public boolean isEmpty() {
@@ -196,25 +219,40 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
-     * Данный метод проверяет вместительность массива, и при необходимости увеличивает его.
+     * This method checks the capacity of the array and increases it if necessary.
      */
     private void checkTheVolume() {
         if (size == volume) volume = (size * 3) / 2 + 1;
     }
 
+    /**
+     * This method is needed for the iterator to work
+     * Collection user does not need it
+     */
     @Override
     public Iterator<E> iterator() {
-        return new MyIteratorArray<E>(elementData, size);
+        return new MyIteratorArray<>(elementData, size);
     }
 
+    /**
+     * This method converts an array of values into a string
+     * If the array is empty, empty cops are returned
+     * If the array contains values, the values are added to the string one by one, separated by commas.
+     *
+     * @return string with array values
+     */
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder(size > 0 ? "" : "[]");
-        for (int i = 0; i > size;) {
-            s.append("[").append(elementData[i]).append("]");
-            if (i < size - 1) s.append(", ");
-            i++;
+
+        int index = 0;
+        StringBuilder s = new StringBuilder(index >= size ? "[]" : "[");
+
+        for (; index < size; index++) {
+            s.append(elementData[index]);
+            if (index < size - 1) s.append(", ");
+            else s.append("]");
         }
         return s.toString();
     }
 }
+
