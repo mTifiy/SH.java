@@ -1,8 +1,10 @@
 package com.shpp.p2p.cs.collections.myLinkedList;
 
 import com.shpp.p2p.cs.collections.MyDeque;
+import com.shpp.p2p.cs.collections.MyQueue;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * This class implements a simplified LinkedList.
@@ -16,7 +18,7 @@ import java.util.Iterator;
  *
  * @param <E> The type of data that the class works with.
  */
-public class MyLinkedList<E> implements MyDeque<E> {
+public class MyLinkedList<E> implements MyDeque<E>, MyQueue<E> {
 
     /**
      * List size
@@ -39,7 +41,7 @@ public class MyLinkedList<E> implements MyDeque<E> {
     private Node<E> lastReturnNode;
 
     /**
-     * This method creates a new node with the specified value at the beginning of the list, and links it
+     * This method creates a new node with the specified value at the head of the list, and links it
      * with the previous one. If the list is empty, the previous value is null
      * The size of the list also increases
      *
@@ -55,6 +57,69 @@ public class MyLinkedList<E> implements MyDeque<E> {
             newNode.next = last;
         }
         size++;
+    }
+
+    /**
+     * This method returns the first element in the list
+     * if the list is empty, returns a NoSuchElementException;
+     * The method implements the MyQueue interface
+     *
+     * @return returns the first element in the list
+     */
+    @Override
+    public E element() {
+        if (size > 0)
+            return first.value;
+        else throw new NoSuchElementException();
+    }
+
+    /**
+     * The method removes the first node in the list by reassigning links and a variable that stores in itself
+     * first node of the list
+     * If the list has one value, the clear() method is called
+     */
+    @Override
+    public void remove() {
+        removeFirst();
+    }
+
+    /**
+     * returns the element from the head of the queue.
+     * Returns null if the queue is empty. The element is not removed.
+     *
+     * @return returns the element from the head of the queue.
+     */
+    @Override
+    public E peek() {
+        if (size > 0)
+            return first.value;
+        else return null;
+    }
+
+    /**
+     * returns the element from the head of the queue and removes it.
+     * Returns null if the queue is empty.
+     *
+     * @return returns an element from the head of the queue and removes it.
+     */
+    @Override
+    public E poll() {
+        if (size > 0) {
+            return pollFirst();
+        } else return null;
+    }
+
+    /**
+     * tries to add value to the queue.
+     * Returns true if value is added, false otherwise.
+     *
+     * @param value passed as argument
+     * @return Returns true if value is added, false otherwise.
+     */
+    @Override
+    public boolean offer(E value) {
+        addFirst(value);
+        return first.value.equals(value);
     }
 
     /**
@@ -198,7 +263,7 @@ public class MyLinkedList<E> implements MyDeque<E> {
     }
 
     /**
-     * Method to add value to the beginning of the list.
+     * Method to add value to the head of the list.
      * If the list is empty, the method creates a new node with null links
      * If the list has nodes, the method creates a new node, and reassigns the link of the previous one.
      *

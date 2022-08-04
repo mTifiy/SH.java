@@ -28,7 +28,7 @@ public class TestMyArrayList {
     /**
      * Size of the created ArrayList
      */
-    static final int sizeOfLink = 1000;
+    static final int sizeOfArray = 1000;
 
     /**
      * Variable that stores the test result
@@ -107,7 +107,7 @@ public class TestMyArrayList {
     static void fillArray() {
         myArr.clear();
         arr.clear();
-        for (int i = 0; i < sizeOfLink; i++) {
+        for (int i = 0; i < sizeOfArray; i++) {
             myArr.add("Index " + i);
             arr.add("Index " + i);
         }

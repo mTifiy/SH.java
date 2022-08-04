@@ -1,4 +1,4 @@
-package com.shpp.p2p.cs.improved.mkalich.assignment12;
+package com.shpp.p2p.cs.improved.mkalich.assignment13;
 
 public interface ConstantsControl {
     /**
@@ -12,7 +12,7 @@ public interface ConstantsControl {
      * true - reverse depth-first search
      * false - wide
      */
-    boolean inDepthSearch = true;
+    boolean inDepthSearch = false;
     /**
      * Default file path
      */

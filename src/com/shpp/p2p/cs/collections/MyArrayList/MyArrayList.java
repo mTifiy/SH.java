@@ -66,7 +66,7 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
-     * This method adds a new value to the beginning of the collection
+     * This method adds a new value to the head of the collection
      * First, the size of the array is checked, and if it does not satisfy the requirement, the size
      * array is increasing.
      * Then a temporary copy of the array is created, the collection array is re-initialized with the specified size,

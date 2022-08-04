@@ -5,6 +5,9 @@ import java.util.Random;
 
 /**
  * This class tests MyLinkedList by comparing it to LinkedList from java library
+ * Some methods of the MyLinkedList class are not tested
+ * because they internally call the same methods that are subject to testing.
+ * Such methods mostly belong to the MyQueue interface.
  * From the beginning, 2 class fields are created, which are collections.
  * For each collection, the methods of the class of these collections are called in turn.
  * followed by a comparison of the two collections. If the collections are the same, then the test passed.
@@ -28,13 +31,13 @@ public class TestMyLinkedList {
     /**
      * The size of the generated MyLinkedList
      */
-    static int sizeOfLink = 10;
+    static int sizeOfLink = 100;
 
     /**
      * Variable that stores the test result
      * and is responsible for terminating testing as a result of an error
      */
-    static boolean testIsPassed = false;
+    static boolean testIsPassed = true;
 
     /**
      * Entry point to the program.
@@ -69,6 +72,7 @@ public class TestMyLinkedList {
 
             fillLink();
             pollLastInLink(); // Remove and return value from end of list and compare result
+
         }
     }
 

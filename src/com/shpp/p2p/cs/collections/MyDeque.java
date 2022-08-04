@@ -6,7 +6,7 @@ package com.shpp.p2p.cs.collections;
  *
  * @param <E> The type of the object that the classes work with
  */
-public interface MyDeque<E> extends MyList<E> {
+public interface MyDeque<E> extends MyList<E>{
 
     /**
      * The method adds a value to the end of the list
